@@ -34,7 +34,16 @@ Alternatively, build from source:
     make rel_inets
     cd rel/nitrogen
 
-### Step 4: Download and Configure the SlideBlast.com, and Start the Server
+### Step 4: Get Dependencies
+
+Change to the rel/nitrogen/lib directory, then run:
+
+    hg clone http://bitbucket.org/basho/protobuffs
+    make -C protobuffs
+    hg clone http://bitbucket.org/basho/riak-erlang-client
+    make -C riak-erlang-client
+
+### Step 5: Download and Configure the SlideBlast.com, and Start the Server
 
 The default project contains skeleton code that we don't need. Delete the skeleton code:
 
@@ -44,20 +53,12 @@ Now, pull the latest SlideBlast code from GitHub:
 
     git clone git://github.com/rklophaus/SlideBlast.git site
     
-SlideBlast.com needs to be able to access the Riak .beam files, so copy them from the $RIAK_HOME/lib directory to the nitrogen/lib:
-
-    cp -r $RIAK_HOME/lib/riak-0.9.1* ./lib
-    
-Set the Riak Node in *etc/app.config*. Add these lines at the bottom of the 'nitrogen' configuration section:
+Set the Riak connection info in *etc/app.config*. Add these lines at the bottom of the 'nitrogen' configuration section:
 
     % Specify the riak node.
-    {riak_node, 'riak@127.0.0.1'}
+    {riak_ip, "127.0.0.1"},
+    {riak_port, 8087}
     
-Set the Erlang cookie in *etc/vm.args*:
-
-    ## Cookie for distributed erlang
-    -setcookie riak
-
 Compile and start:
         
     make
