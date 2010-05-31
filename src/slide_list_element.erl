@@ -1,18 +1,18 @@
 -module (slide_list_element).
--include ("wf.inc").
+-include_lib ("nitrogen/include/wf.hrl").
 -include ("caster.hrl").
 -compile(export_all).
 
 
 %% Custom element to display a thumbnailed list of slides and listen for events.
-%% - If the user clicks on a slide, then move_to(SlideID) is called in web_view.
-%% - If the user sorts the slides, then sort_slides(SlideIDs) is called in web_view.
+%% - If the user clicks on a slide, then move_to(SlideID) is called in view.
+%% - If the user sorts the slides, then sort_slides(SlideIDs) is called in view.
 
 % Required for a custom element.
 reflect() -> record_info(fields, slide_list).
 
 % Executes when the element is rendered.
-render_element(_HtmlID, Record) ->
+render_element(Record) ->
     Deck = Record#slide_list.deck,
     IsAdmin = Record#slide_list.is_admin,
     #panel { id=slideListContainer, body=[
@@ -62,9 +62,9 @@ slide_id(SlideID) -> "s" ++ wf:to_list(SlideID).
 
 %%% EVENTS %%%
 
-event({move_to, SlideID}) -> web_view:move_to_slide(SlideID).
+event({move_to, SlideID}) -> view:move_to_slide(SlideID).
 
-sort_event(_DeckID, SlideIDs) -> web_view:sort_slides(SlideIDs).
+sort_event(_DeckID, SlideIDs) -> view:sort_slides(SlideIDs).
 
 %%% CALLBACKS %%%
 

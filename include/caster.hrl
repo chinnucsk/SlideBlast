@@ -1,4 +1,4 @@
--include ("wf.inc").
+-include_lib ("nitrogen/include/wf.hrl").
 -define (IS_TEXT(Type), (Type==markdown orelse Type == shell orelse Type==csharp orelse Type==cpp orelse Type==c orelse Type==css orelse Type==js orelse Type==java orelse Type==text orelse Type==sql orelse Type==xml orelse Type==erlang)).
 -define (IS_IMAGE(Type), (Type==gif orelse Type==jpeg orelse Type==png)).
  

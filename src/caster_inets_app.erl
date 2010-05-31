@@ -1,5 +1,5 @@
 -module (caster_inets_app).
--include ("wf.inc").
+-include_lib ("nitrogen/include/wf.hrl").
 
 -export ([start/2, stop/0, do/1]).
 
@@ -30,9 +30,9 @@ do(Info) ->
 	nitrogen:init_request(RequestBridge, ResponseBridge),
 	wf_handler:set_handler(named_route_handler, [
         % Modules...
-        {"/", web_index},
-        {"/view/", web_view},
-        {"/img/", web_img},
+        {"/", index},
+        {"/view/", view},
+        {"/img/", img},
         
         % Static directories...
         {"/nitrogen", static_file},

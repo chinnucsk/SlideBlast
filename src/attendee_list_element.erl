@@ -1,5 +1,5 @@
 -module (attendee_list_element).
--include ("wf.inc").
+-include_lib ("nitrogen/include/wf.hrl").
 -include ("caster.hrl").
 -compile(export_all).
 -record (attendee, {name, pid, last_update}).
@@ -15,10 +15,10 @@
 reflect() -> record_info(fields, attendee_list).
 
 % Executes when the element is rendered.
-render_element(_HtmlID, Record) ->
+render_element(Record) ->
     DeckID = Record#attendee_list.deck_id,
     {ok, Pid} = wf:comet_global(fun() -> comet_loop(DeckID) end, DeckID),
-    web_view:server_put(attendee_comet_pid, Pid),
+    view:server_put(attendee_comet_pid, Pid),
     [
         #span { class=attendee_title, text="Attendees" },
         #panel { id=attendeeList }
@@ -49,8 +49,8 @@ color_attendee_list(L, LastTick) ->
 %%% EVENTS %%%
 
 action() ->
-    DeckID = web_view:server_get(deck_id),
-    case web_view:server_get(attendee_comet_pid) of
+    DeckID = view:server_get(deck_id),
+    case view:server_get(attendee_comet_pid) of
         undefined -> ignore;
         Pid -> wf:send_global(DeckID, {tick, Pid})
     end.
@@ -58,7 +58,7 @@ action() ->
 %%% COMET %%%
     
 comet_loop(DeckID) ->
-    web_view:server_put(attendee_comet_pid, self()),
+    view:server_put(attendee_comet_pid, self()),
     Me = #attendee { name="Joining...", pid=self(), last_update=now() },
     wf:send_global(DeckID, {hello, Me}), 
     comet_loop([Me], now()).
@@ -81,7 +81,7 @@ comet_loop(L, LastTick) ->
             Me = lists:keyfind(self(), 3, L),
             NewMe = Me#attendee { name=Name },
             NewL = lists:sort(lists:keystore(self(), 3, L, NewMe)),
-            DeckID = web_view:server_get(deck_id),
+            DeckID = view:server_get(deck_id),
             wf:send_global(DeckID, {hello, NewMe}),
             comet_loop(NewL, LastTick);
         

@@ -1,5 +1,5 @@
 -module (share_dialog_element).
--include ("wf.inc").
+-include_lib ("nitrogen/include/wf.hrl").
 -include ("caster.hrl").
 -compile(export_all).
 
@@ -9,7 +9,7 @@
 reflect() -> record_info(fields, name_dialog).
 
 % Executes when the element is rendered.
-render_element(_HtmlID, _Record) ->
+render_element(_Record) ->
     #lightbox { id=share_lightbox, style="display: none;", body=[
         #panel { class=share_dialog, body=[
             #image { image="/images/SlideBlastLogoSmall.png" },

@@ -19,8 +19,8 @@ now_seconds() ->
 %% Use GhostScript to break a .pdf into pngs.
 pdf_to_pngs(File) -> pdf_to_png(File, 1).
 pdf_to_png(File, PageNum) ->
-    web_index:show_status("Processing page " ++ wf:to_list(PageNum) ++ "..."),
-    Cmd = wf:f("./deps/scripts/pdf_to_png.sh \"~s\" ~p", [File, PageNum]),
+    index:show_status("Processing page " ++ wf:to_list(PageNum) ++ "..."),
+    Cmd = wf:f("./site/scripts/pdf_to_png.sh \"~s\" ~p", [File, PageNum]),
     Opts = [use_stdio, stream, eof],
     Port = open_port({spawn, Cmd}, Opts),
     B = read_messages(Port, []),
@@ -32,7 +32,7 @@ pdf_to_png(File, PageNum) ->
     
 %% Use Imagemagick to create a thumbnail of an image.
 create_thumbnail(File) ->
-    Cmd = wf:f("./deps/scripts/image_to_thumbnail.sh \"~s\"", [File]),
+    Cmd = wf:f("./site/scripts/image_to_thumbnail.sh \"~s\"", [File]),
     Opts = [use_stdio, stream, eof],
     Port = open_port({spawn, Cmd}, Opts), 
     B = read_messages(Port, []),

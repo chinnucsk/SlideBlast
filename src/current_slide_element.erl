@@ -1,5 +1,5 @@
 -module (current_slide_element).
--include ("wf.inc").
+-include_lib ("nitrogen/include/wf.hrl").
 -include ("caster.hrl").
 -compile(export_all).
 
@@ -11,7 +11,7 @@
 reflect() -> record_info(fields, current_slide).
 
 % Executes when the element is rendered.
-render_element(_HtmlID, Record) ->
+render_element(Record) ->
     Deck = Record#current_slide.deck,
     #panel { id=currentSlideContainer, body=[
         [print_slide(X) || X <- Deck#deck.slides]

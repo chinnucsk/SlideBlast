@@ -1,5 +1,5 @@
 -module (caster_mochiweb_app).
--include ("wf.inc").
+-include_lib ("nitrogen/include/wf.hrl").
 
 -export ([
 	start/2
@@ -18,9 +18,9 @@ loop(Req) ->
 	nitrogen:init_request(RequestBridge, ResponseBridge),
 	wf_handler:set_handler(named_route_handler, [
 		% Modules...
-		{"/", web_index},
-		{"/view/", web_view},
-		{"/img/", web_img},
+		{"/", index},
+		{"/view/", view},
+		{"/img/", img},
 
 		% Static directories...
 		{"/nitrogen", static_file},

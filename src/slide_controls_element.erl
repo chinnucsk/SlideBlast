@@ -1,5 +1,5 @@
 -module (slide_controls_element).
--include ("wf.inc").
+-include_lib ("nitrogen/include/wf.hrl").
 -include ("caster.hrl").
 -compile(export_all).
 
@@ -10,7 +10,7 @@
 reflect() -> record_info(fields, slide_controls).
 
 % Executes when the element is rendered.
-render_element(_HtmlID, Record) ->
+render_element(Record) ->
     IsAdmin = Record#slide_controls.is_admin,
     
     % Wire up a bunch of keys...
@@ -46,14 +46,14 @@ wire_navigation_events() ->
     ok.
     
 wire_fullscreen_event() ->
-    wf:wire(#event { type=keydown, keycode=70, actions=[
+    wf:wire(page, #event { type=keydown, keycode=70, actions=[
         "if (!document.disable_slide_controls) { toggleFullScreen(); } else { return true; }"
     ]}).    
 
 % Listen for a key, but only when 'disable_slide_controls' flag is off.    
 wire_keydown_event(KeyCode, Postback) ->
-    wf:wire(#event { type=keydown, keycode=KeyCode, actions=[
-        "if (!document.disable_slide_controls) {",
+    wf:wire(page, #event { type=keydown, keycode=KeyCode, actions=[
+        "if (!document.disable_slide_controls) { ",
         #event { delegate=?MODULE, postback=Postback },
         "} else { return true; }"
     ]}).    
@@ -62,10 +62,10 @@ wire_keydown_event(KeyCode, Postback) ->
 %%% CALLED FROM ELEMENTS %%%
 
 event({move, Direction}) ->
-    web_view:move_in_direction(Direction);
+    view:move_in_direction(Direction);
     
 event(delete_slide) ->
-    web_view:delete_slide();
+    view:delete_slide();
     
 event(share) ->
     share_dialog_element:show();

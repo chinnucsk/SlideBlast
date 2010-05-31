@@ -1,5 +1,5 @@
 -module (layout_element).
--include ("wf.inc").
+-include_lib ("nitrogen/include/wf.hrl").
 -include ("caster.hrl").
 -compile(export_all).
 
@@ -10,7 +10,7 @@
 reflect() -> record_info(fields, layout).
 
 % Executes when the element is rendered.
-render_element(_HtmlID, #layout { 
+render_element(#layout { 
     class=Class,
     north=North,   north_options=NorthOpts,
     south=South,   south_options=SouthOpts, 

@@ -1,5 +1,5 @@
 -module (name_dialog_element).
--include ("wf.inc").
+-include_lib ("nitrogen/include/wf.hrl").
 -include ("caster.hrl").
 -compile(export_all).
 
@@ -9,7 +9,7 @@
 reflect() -> record_info(fields, name_dialog).
 
 % Executes when the element is rendered.
-render_element(_HtmlID, _Record) ->
+render_element(_Record) ->
     wf:wire(okButton, nameTextBox, #validate { validators=[
         #is_required { text="Required." }
     ]}),
@@ -37,7 +37,7 @@ event(ok) ->
     wf:wire("enableSlideControls();"),
     wf:wire(name_lightbox, #hide {  }),
     Name = wf:q(nameTextBox),
-    Pid = web_view:server_get(attendee_comet_pid),
+    Pid = view:server_get(attendee_comet_pid),
     Pid!{set_name, Name}.
 
     
