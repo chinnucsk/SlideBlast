@@ -17,7 +17,7 @@ viewing the same slide.
 
 ### Step 2: Download, Install, and run Riak 0.9.1
 
-* [Download Riak 0.9.1](http://downloads.basho.com/riak/riak-0.9/)
+* [Download Riak 0.10.1](http://downloads.basho.com/riak/riak-0.10.1/)
 * [Install Instructions](http://wiki.basho.com/display/RIAK/Getting+Started)
 
 ### Step 3: Download and Build Nitrogen
